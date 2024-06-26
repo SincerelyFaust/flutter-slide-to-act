@@ -28,7 +28,9 @@ class HomePage extends StatelessWidget {
               builder: (context) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SlideAction(),
+                  child: SlideAction(
+                    onSubmit: () {},
+                  ),
                 );
               },
             ),
@@ -39,8 +41,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -56,8 +58,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -75,8 +77,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -100,8 +102,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -118,8 +120,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -137,8 +139,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -155,8 +157,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -174,26 +176,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
-                        Duration(seconds: 1),
-                        () => _key.currentState!.reset(),
-                      );
-                    },
-                    reversed: true,
-                  ),
-                );
-              },
-            ),
-            Builder(
-              builder: (context) {
-                final GlobalKey<SlideActionState> _key = GlobalKey();
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SlideAction(
-                    key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -213,8 +197,8 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SlideAction(
                     key: _key,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
@@ -231,22 +215,12 @@ class HomePage extends StatelessWidget {
                   child: SlideAction(
                     key: _key,
                     trigger: 0.3,
-                    onSubmit: () {
-                      Future.delayed(
+                    onSubmit: () async {
+                      await Future.delayed(
                         Duration(seconds: 1),
                         () => _key.currentState!.reset(),
                       );
                     },
-                  ),
-                );
-              },
-            ),
-            Builder(
-              builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SlideAction(
-                    sliderRotate: false,
                   ),
                 );
               },
