@@ -4,23 +4,11 @@ import 'package:flutter/material.dart';
 
 /// Slider call to action component
 class SlideAction extends StatefulWidget {
-  /// The size of the sliding icon
-  final double sliderButtonIconSize;
-
-  /// Tha padding of the sliding icon
-  final double sliderButtonIconPadding;
-
-  /// The offset on the y axis of the slider icon
-  final double sliderButtonYOffset;
-
   // Wether the user can interact with the slider
   final bool enabled;
 
   /// The child that is rendered instead of the default Text widget
   final Widget? child;
-
-  /// The height of the component
-  final double height;
 
   /// The color of the text.
   /// If not set, this attribute defaults to primaryIconTheme.
@@ -55,41 +43,25 @@ class SlideAction extends StatefulWidget {
   /// The widget to render instead of the default icon
   final Widget? sliderButtonIcon;
 
-  /// The widget to render instead of the default submitted icon
-  final Widget? submittedIcon;
-
   /// The duration of the animations
   final Duration animationDuration;
-
-  /// the alignment of the widget once it's submitted
-  final Alignment alignment;
 
   /// The point where the onSubmit callback should be executed
   final double trigger;
 
-  /// Tha padding of the container
-  final double containerPadding;
-
   /// Create a new instance of the widget
   const SlideAction({
     super.key,
-    this.sliderButtonIconSize = 24,
-    this.sliderButtonIconPadding = 16,
-    this.sliderButtonYOffset = 0,
     this.enabled = true,
-    this.height = 70,
     this.textColor,
     this.innerColor,
     this.outerColor,
     this.borderRadius = 52,
     this.elevation = 6,
     this.animationDuration = const Duration(milliseconds: 300),
-    this.alignment = Alignment.center,
-    this.submittedIcon,
     required this.onSubmit,
     this.child,
     this.text,
-    this.containerPadding = 8.0,
     this.textStyle,
     this.sliderButtonIcon,
     this.trigger = 0.8,
@@ -109,117 +81,79 @@ class SlideActionState extends State<SlideAction>
   double get _progress => _dx == 0 ? 0 : _dx / _maxDx;
   double _endDx = 0;
   double? _containerWidth;
-  bool submitted = false;
   late AnimationController _cancelAnimationController;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: widget.alignment,
-      child: Container(
-        key: _containerKey,
-        height: widget.height,
-        width: _containerWidth,
-        constraints: _containerWidth != null
-            ? null
-            : BoxConstraints.expand(height: widget.height),
-        child: Material(
-          elevation: widget.elevation,
-          color: widget.outerColor ?? Theme.of(context).colorScheme.secondary,
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          child: submitted
-              ? Center(
-                  child: Stack(
-                    clipBehavior: Clip.antiAlias,
-                    children: <Widget>[
-                      widget.submittedIcon ??
-                          Icon(
-                            Icons.done,
-                            color: widget.innerColor ??
-                                Theme.of(context).primaryIconTheme.color,
-                          ),
-                      Positioned.fill(
-                        right: 0,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            color: widget.outerColor ??
-                                Theme.of(context).colorScheme.secondary,
-                          ),
+    return Container(
+      key: _containerKey,
+      height: 70,
+      width: _containerWidth,
+      constraints:
+          _containerWidth != null ? null : BoxConstraints.expand(height: 70),
+      child: Material(
+        elevation: widget.elevation,
+        color: widget.outerColor ?? Theme.of(context).colorScheme.secondary,
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            Opacity(
+              opacity: 1 - 1 * _progress,
+              child: widget.child ??
+                  Text(
+                    widget.text ?? 'Slide to act',
+                    textAlign: TextAlign.center,
+                    style: widget.textStyle ??
+                        TextStyle(
+                          color: widget.textColor ??
+                              Theme.of(context).primaryIconTheme.color,
+                          fontSize: 24,
                         ),
-                      ),
-                    ],
                   ),
-                )
-              : Stack(
-                  alignment: Alignment.center,
-                  clipBehavior: Clip.none,
-                  children: <Widget>[
-                    Opacity(
-                      opacity: 1 - 1 * _progress,
-                      child: widget.child ??
-                          Text(
-                            widget.text ?? 'Slide to act',
-                            textAlign: TextAlign.center,
-                            style: widget.textStyle ??
-                                TextStyle(
-                                  color: widget.textColor ??
-                                      Theme.of(context).primaryIconTheme.color,
-                                  fontSize: 24,
-                                ),
-                          ),
-                    ),
-                    Positioned(
-                      left: widget.sliderButtonYOffset,
-                      child: Container(
-                        key: _sliderKey,
-                        child: GestureDetector(
-                          onHorizontalDragUpdate:
-                              widget.enabled ? onHorizontalDragUpdate : null,
-                          onHorizontalDragEnd: (details) async {
-                            _endDx = _dx;
-                            if (_progress <= widget.trigger) {
-                              _cancelAnimation();
-                            } else {
-                              widget.onSubmit();
-                              await reset();
-                            }
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: widget.containerPadding,
+            ),
+            Positioned(
+              left: 0,
+              child: Container(
+                key: _sliderKey,
+                child: GestureDetector(
+                  onHorizontalDragUpdate:
+                      widget.enabled ? onHorizontalDragUpdate : null,
+                  onHorizontalDragEnd: (details) async {
+                    _endDx = _dx;
+                    if (_progress <= widget.trigger) {
+                      _cancelAnimation();
+                    } else {
+                      widget.onSubmit();
+                      await reset();
+                    }
+                  },
+                  child: Material(
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    color: widget.innerColor ??
+                        Theme.of(context).primaryIconTheme.color,
+                    child: Container(
+                      width: _containerWidth != null
+                          ? 68 + (_progress * (_containerWidth! - 68))
+                          : 68,
+                      padding: EdgeInsets.all(22),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: widget.sliderButtonIcon ??
+                            Icon(
+                              Icons.arrow_forward,
+                              size: 24,
+                              color: widget.outerColor ??
+                                  Theme.of(context).colorScheme.secondary,
                             ),
-                            child: Material(
-                              borderRadius:
-                                  BorderRadius.circular(widget.borderRadius),
-                              color: widget.innerColor ??
-                                  Theme.of(context).primaryIconTheme.color,
-                              child: Container(
-                                width: _containerWidth != null
-                                    ? 68 + (_progress * (_containerWidth! - 68))
-                                    : 68,
-                                padding: EdgeInsets.all(
-                                    widget.sliderButtonIconPadding),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: widget.sliderButtonIcon ??
-                                      Icon(
-                                        Icons.arrow_forward,
-                                        size: widget.sliderButtonIconSize,
-                                        color: widget.outerColor ??
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -233,8 +167,6 @@ class SlideActionState extends State<SlideAction>
 
   /// Call this method to revert the animations
   Future reset() async {
-    submitted = false;
-
     await _cancelAnimation();
   }
 
@@ -276,10 +208,7 @@ class SlideActionState extends State<SlideAction>
           _sliderKey.currentContext!.findRenderObject() as RenderBox;
       final sliderWidth = sliderBox.size.width;
 
-      _maxDx = _containerWidth! -
-          (sliderWidth / 2) -
-          33 -
-          widget.sliderButtonYOffset;
+      _maxDx = _containerWidth! - (sliderWidth / 2) - 33;
     });
   }
 

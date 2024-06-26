@@ -83,7 +83,6 @@ class HomePage extends StatelessWidget {
                         () => _key.currentState!.reset(),
                       );
                     },
-                    alignment: Alignment.centerRight,
                     child: Text(
                       'Unlock',
                       style: TextStyle(
@@ -108,7 +107,6 @@ class HomePage extends StatelessWidget {
                         () => _key.currentState!.reset(),
                       );
                     },
-                    height: 100,
                   ),
                 );
               },
@@ -126,8 +124,6 @@ class HomePage extends StatelessWidget {
                         () => _key.currentState!.reset(),
                       );
                     },
-                    sliderButtonIconSize: 48,
-                    sliderButtonYOffset: -20,
                   ),
                 );
               },
@@ -182,10 +178,6 @@ class HomePage extends StatelessWidget {
                         () => _key.currentState!.reset(),
                       );
                     },
-                    submittedIcon: Icon(
-                      Icons.done_all,
-                      color: Colors.white,
-                    ),
                   ),
                 );
               },
